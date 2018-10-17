@@ -1,0 +1,201 @@
+AppData:                                            # 自定义配置
+  test: '123'
+EurekaServer:                                       # Eureka服务的配置
+  host: '127.0.0.1'                                 # host
+  port: 8899                                        # port
+  servicePath: "/eureka/apps/"                      # srever下访问路径
+  heartbeatInterval: 10000                          # 心跳包间隔
+EurekaClient:                                       # EurekaClient配置（注册信息）
+  instanceId : '{InstanceID}'                       # 实例ID
+  app: '{AppName}'                                  # 应用名
+  hostName: 'TestServer'                            # host
+  ipAddr  : '127.0.0.1'                             # ip
+  statusPageUrl: 'http://{host}:{port}/Status'      # 状态页面
+  port : 9002                                       # port
+  vipAddress : "TestServerVIP"                      # 虚拟IP地址
+  dataCenterInfo : MyOwn                            # 数据中心名
+  leaseInfo :                                       # 租赁信息
+    renewalIntervalInSecs : 5                       # 续约间隔
+    durationInSecs : 15                             # 持续时间
+  countryId : 86                                    # countryID
+  metadata :                                        # meta信息
+    loadBalance : "{LoadBalance}"                   # 负载均衡信息
+WebServices:                                        # WebService配置
+  - name: StatusService                             # 服务名（默认必须有StatusService）
+    controllers:                                    # controllers
+      - LogLevel
+      - Other
+    Session:                                        # session配置
+      type: memory                                  # 内存型或redis
+      resave: false                                 # 自动重建
+      saveUninitialized: false                      # 允许未初始化可以存储
+      rolling: true                                 # 强制在每个响应上设置会话标识符Cookie
+      secret: 'Credentials.cookieSecret'            # Session加密的密码
+      cookie:                                       # cookie配置
+        maxAge: 600000                              # 有效期
+  - name: TestService2
+    host: '{host}'                                  # host
+    port: 9004                                      # port
+    serviceType: http                               # 协议类型
+    staticPath: './public/static'                   # 静态资源目录
+    uploadPath: './upload'                          # 上传文件目录
+    controllers:
+      - Hello
+      - World
+    Session:
+      type: memory/redis
+      store:                                        # memory 不需要设置，redis需要设置
+        client: '{Redis:RedisClient}'               # 使用现有的Redis客户端
+        host: '127.0.0.1'                           # redis的host
+        port: 6379                                  # redis的port
+        db: 0                                       # redis的db
+        pass: 'redisPWD'                            # redis的密码
+      resave: false
+      saveUninitialized: false
+      rolling: true
+      secret: 'Credentials.cookieSecret'
+      cookie:
+        maxAge: 600000
+DBClients:                                          # 数据库配置
+  - name: CustomName                                # 连接名
+    config:                                         # 连接配置
+      database: DBName                              # 数据库名
+      dialect: postgres                             # 数据库类型
+      username: username                            # 用户名
+      passwork: password                            # 密码
+      host: '127.0.0.1'                             # host
+      port: 5390                                    # port
+      pool:                                         # 连接池配置
+        max : 10,                                   # 最大连接数
+        min : 0                                     # 最小连接数
+        acquire : 3000                              # 等待获取连接的时间
+        idle : 10000                                # 空闲时间，超过连接回收
+      logging: false                                # 是否开启logger
+      operatorsAliases: false                       # 自定义operators
+      DAOs:                                         # DAOs
+        - Name : User                               # DAO名字
+          syncForce: false                          # 是否强制同步
+        - Name : Record
+          syncForce: false
+        - Dir : 'TestPro/**/'
+          syncForce: false
+        - Dir : 'TestPro1'
+          syncForce: false
+RedisClients:                                       # Redis配置
+  - name : RedisClient                              # redis配置名
+    isCluster : false                               # 是否是Cluster
+    host : '127.0.0.1'                              # host
+    port : 6379                                     # port
+    connectionName: 'TestC4Framework'               # 连接名
+    password: null                                  # 密码
+    db : 2                                          # db
+    connectTimeout: 60000                           # 连接超时（ms）
+    totalRetryTime: 60000                           # 重试超时（ms）
+    attempt: 3000                                   # 等待获取连接的时间（ms）
+  - name: RedisClusterClient
+    isCluster : true
+    clusterNodes:                                   # cluster节点配置
+      - host: '127.0.0.1'                           # host
+        port: 6380                                  # port
+      - host: '127.0.0.1'
+        port: 6381
+      - host: '127.0.0.1'
+        port: 6382
+      - host: '127.0.0.1'
+        port: 6383
+    enableOfflineQueue : false                      # 是否开启离线队列
+    enableReadyCheck : true                         # 是否开启Ready的检查
+    maxRedirections : 6                             # 最大重试次数
+    retryDelayOnFailover : 1000                     # 重试延迟
+    retryDelayOnClusterDown : 6000                  # 在Cluster宕机后的重试延迟
+    connectionName: 'TestC4Framework'
+    password: null
+    connectTimeout: 60000
+    totalRetryTime: 60000
+    attempt: 3000
+MQClients:                                          # MQ的配置
+  connections :                                     # 连接配置
+    - name: ConnectionName0                         # 连接名
+      host: '127.0.0.1'                             # host
+      port: 5672                                    # port
+      login: "user"                                  # 用户名
+      password: "password"                       # 密码
+      connectionTimeout: 30000                      # 连接超时（ms）
+      authMechanism: "AMQPLAIN"                     # 验证机制
+      vhost: "test"                                 # vhost
+      noDelay: true                                 # noDelay
+      heartbeat: 50                                 # 心跳
+      # ssl:                                        # ssl配置
+      #   enabled: true                             # 是否开启
+      #   keyFile: ""                               # Key File
+      #   certFile: ""                              # 证书
+      #   caFile: ""                                # ca
+      #   rejectUnauthorized: false                 # 是否校验对方证书
+      clientProperties:                             # client的属性
+        applicationName: "{AppName}"
+  publishers:                                       # publisher配置
+    - name: "C4FrameworkExchange0"                  # publisher（exchange）名
+      connection: "{MQConnections:ConnectionName0}" # 连接引用
+      routingKey: "TestKey"                         # 默认routingkey
+      type: "direct"                                # exchange的类型
+      durable: true                                 # 是否持久化
+      autoDelete: false                             # 是否自动删除
+      confirm: true                                 # 手动确认
+  subscribers:                                      # subscribers配置
+    - name: "C4FramewrokQueue0"                     # subscriber（queue）名
+      connection: "{MQConnections:ConnectionName0}" # 连接引用
+      publisherName: "C4FrameworkExchange0"         # 默认绑定的Exchange名
+      routingKey: "TestKey"                         # 默认的routingkey
+      durable: true                                 # 是否持久化
+      autoDelete: false                             # 自动删除
+      handlers:                                     # 消息处理handlers
+        - Hello                                     # handler名
+      subscribeLater : false                        # 是否延迟订阅
+    - name: "C4FramewrokQueue1"
+      connection: "{MQConnections:ConnectionName0}"
+      publisherName: "C4FrameworkExchange0"
+      routingKey: "TestKey"
+      durable: true
+      autoDelete: false
+      handlers:
+        - Hello
+      subscribeLater : true       # 延迟启动订阅
+LoadBalance:                                        # 负载均衡配置
+  - LBType : Random                                 # 负载均衡器的类型
+    weight : 1                                      # 权重
+  - LBType : ConsistentHash
+    weight : 1
+    vnodes : 100                                    # weight和vnode二选一
+  - LBType : RoundRobin
+    weight : 1
+  - LBType : LeastLoad
+    weight : 1
+Dependencies:                                       # 依赖的服务配置
+  updateInterval : 10000                            # 更新间隔
+  apps :                                            # 应用配置
+    - appName : 'CONFIG-SERVER'                     # 应用名
+      LBType  : ConsistentHash                      # 采用的负载均衡方式
+      APIs    : 'config-server-v1.0'                # 对应的APIClient
+      required: true                                # 是否是必须等待的
+      timeout : 30000                               # 获取状态的等待超时
+      retry: -1                                     # 重试次数，-1为不断重试
+      retryInterval: 60000                          # 重试间隔
+RESTClient:                                         # RESTFulClient配置
+  baseURL : "http://127.0.0.1"                      # baseURL，可选项目
+  sslOption :                                       # SSL配置
+    cert : "fileName"
+    key  : "fileName"
+    passphrase : "fileName"
+    ca : "fileName"
+  rejectUnauthorized : true                         # 是否校验对端的证书
+  timeout : 30000                                   # 等待超时
+  gzip : true                                       # 是否开启gzip
+  cookiesOption :                                   # cookie配置
+    enbaled : true
+    store : '{Redis:RedisClient}'                   # 设置redis存储引擎
+  downloadPath : "./download"                       # 下载保存路径
+  parsers:                                          # 自定义解析器
+    - parserName : "text"
+      parser : "textParser"
+
+

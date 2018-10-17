@@ -1,0 +1,20 @@
+defaultLoggers:
+  - name: default-console-logger
+    level: debug
+  - name: default-files-logger
+    level: debug
+    filename: ./logs/default-logs.log
+    maxsize: 102400    # 单个日志文件的最大尺寸
+    maxfiles: 100      # 最多保存的日志文件数
+customLoggers:
+  - name: custom-logger-00
+    logtype: files
+    level: debug
+    label: custom-00
+    filename: ./clogs/custom-logger-00.log
+    maxsize: 10240
+    maxfiles: 10
+  - name: custom-logger-01
+    logtype: console
+    level: debug
+    label: custom-01

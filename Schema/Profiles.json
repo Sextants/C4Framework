@@ -1,0 +1,16 @@
+{
+  "$id": "httpo://sextants/C4Framework/Profiles.json",
+  "type": [
+    "string",
+    "array"
+  ],
+  "items": {
+    "type": "string",
+    "enum": [
+      "dev",
+      "staging",
+      "prod",
+      "default"
+    ]
+  }
+}

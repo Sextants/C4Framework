@@ -1,0 +1,10 @@
+{
+    "AppName": "Test",
+    "Version": "1.0.0",
+    "InstanceID": "dec58d69-2f80-4628-b35e-e4d9db8a9e6d",
+    "ConfigLabel": "dev",
+    "Labels": [],
+    "Host": "10.1.0.18",
+    "Port": 9001,
+    "Desc": "测试"
+}

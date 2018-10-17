@@ -1,0 +1,21 @@
+ConfigDir: 
+  Path: ./Config/AppConfig/
+  main: App.yml
+SchemaDirs:
+  - './Schema'
+  - './node_modules/c4schema'
+Macros:
+  - '{AppName}'
+  - '{Version}'
+  - '{InstanceID}'
+  - '{host}'
+  - '{port}'
+  - '{Random.Hash}'
+  - '{Random.Int}'
+  - '{Random}'
+  - '{Random.HashEx}'
+  - '{Random.IntEx}'
+  - '{RandomEx}'
+  - '{timestamp}'
+  - '{timestampEx}'
+  - '{uuid}'

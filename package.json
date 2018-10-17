@@ -1,0 +1,42 @@
+{
+  "name": "c4framework",
+  "version": "0.0.1",
+  "description": "C4Framework",
+  "main": "out",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sextants/C4Framework.git"
+  },
+  "keywords": [
+    "C4Framework"
+  ],
+  "author": "Sextant",
+  "bugs": {
+    "url": "https://github.com/Sextants/C4Framework.git"
+  },
+  "dependencies": {
+    "@types/connect-redis": "0.0.7",
+    "@types/eureka-js-client": "^4.3.1",
+    "@types/uuid": "^3.4.3",
+    "c4-mq": "0.0.1",
+    "c4ajv": "0.0.1",
+    "c4apisclient": "0.0.1",
+    "c4configger": "0.0.1",
+    "c4eurekaclient": "0.0.1",
+    "c4loadbalancer": "0.0.2",
+    "c4logger": "0.0.1",
+    "c4orm": "0.0.1",
+    "c4restfulclient": "0.0.1",
+    "c4utils": "0.0.2",
+    "c4webservice": "0.0.1",
+    "connect-redis": "^3.3.3",
+    "glob": "^7.1.2",
+    "ioredis": "^3.2.2",
+    "redis-cookie-store": "^1.0.0",
+    "sequelize-typescript": "^0.6.6",
+    "uuid": "^3.2.1"
+  }
+}

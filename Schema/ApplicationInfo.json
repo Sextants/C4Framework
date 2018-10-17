@@ -1,0 +1,72 @@
+{
+    "$id": "http://sextants/C4Framework/ApplicationInfo.json",
+    "type": "object",
+    "properties": {
+        "AppName": {
+            "$id": "/properties/AppName",
+            "type": "string",
+            "title": "Application Name",
+            "description": "Application Name",
+            "default" : ""
+        },
+        "Version": {
+            "$id": "/properties/Version",
+            "type": "string",
+            "title": "Application Instance Version",
+            "description": "Application Instance Name",
+            "pattern" : "^\\d+.\\d+.\\S+$"
+        },
+        "InstanceID": {
+            "$id": "/properties/InstanceID",
+            "type": "string",
+            "title": "Application Instance ID",
+            "description": "Application Instance ID",
+            "default" : ""
+        },
+        "ConfigLabel" : {
+            "$id" : "/properties/ConfigLabel",
+            "type" : "string",
+            "title" : "Application Config Label",
+            "description" : "Application Config Label",
+            "default" : ""
+        },
+        "Labels" : {
+            "$id" : "/properties/Labels",
+            "type" : "array",
+            "title" : "Application Config Label",
+            "description" : "Application Config Label",
+            "items" : {
+                "$id" : "/properties/Labels/items",
+                "types" : "string"
+            }
+        },
+        "Host": {
+            "$id": "/properties/Host",
+            "type": "string",
+            "formats": ["ipv4" ,"hostname"],
+            "title": "服务的Host",
+            "description": "服务的Host"
+        },
+        "Port" : {
+            "$id" : "/properties/Port",
+            "type" : "integer",
+            "title" : "服务的端口",
+            "description" : "服务的端口",
+            "minimum" : 1025,
+            "maximum" : 65534
+        },
+        "Desc": {
+            "$id": "/properties/Desc",
+            "type": "string",
+            "title": "Application Description",
+            "description": "Application Description",
+            "default" : ""
+        }
+    },
+    "required" : [
+        "AppName",
+        "Version",
+        "InstanceID",
+        "Desc"
+    ]
+}

@@ -1,0 +1,19 @@
+C4Helpers:
+  # 基础配置初始化部分
+  - "ProcessArgvHelper"               # 处理启动参数
+  - "SchemaHelper"                    # 加载JSON Schema
+  - "LoggerHelper"                    # 初始化Logger
+  - "AppInfoHelper"                   # 加载App Info
+  - "ConfiggerHelper"                 # 加载配置
+  - "DumpAppInfoHelper"               # Dump App Info
+  # 根据具体的使用功能进行初始化
+  - "RESTClientHelper"                # 初始化RESTFul Client
+  - "ORMHelper"                       # 初始化ORM
+  - "ROMHelper"                       # 初始化Redis及ROM
+  - "MQHelper"                        # 初始化MQ
+  - "RegistryHelper"                  # 向发现与注册中心注册自己
+  - "DependenciesHelper"              # 等待依赖的服务上线（后面还要等待所有服务Ready）
+  # - "LoadBalanceerHelper"             # 初始化负载均衡器
+  - "WebServiceHelper"                # 初始化自己的WebService
+  - "WaitDependenciesHelper"          # 等待所有依赖的服务Ready
+  - "DelaySubscribeHelper"            # 延迟订阅的订阅者

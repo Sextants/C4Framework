@@ -1,0 +1,275 @@
+{
+    "$id": "http://sextants/C4Framework/LoggerConfig.json",
+    "type" : "object",
+    "properties" : {
+        "defaultLoggers" : {
+            "type" : "array",
+            "uniqueItems": true,
+            "title" : "默认日志输出",
+            "description" : "默认日志输出",
+            "items" : {
+                "type" : "object",
+                "properties" : {
+                    "name" : {
+                        "type" : "string",
+                        "title": "console日志名字（唯一标识）",
+                        "description" : "console日志名字（唯一标识）",
+                        "default" : "default-console-logger"
+                    },
+                    "level" : {
+                        "type" : "string",
+                        "title" : "日志级别",
+                        "description" : "日志级别",
+                        "default" : "info",
+                        "enum" : [
+                            "fatal",
+                            "err",
+                            "warn",
+                            "info",
+                            "debug",
+                            "trace"
+                        ]
+                    },
+                    "logtype" : {
+                        "type" : "string",
+                        "title" :"日志类型",
+                        "description" :"日志类型，用在自定义日志",
+                        "enum" : [
+                            "files",
+                            "console",
+                            "redis"
+                        ]
+                    },
+                    "label" : {
+                        "type" : "string",
+                        "title" : "日志的标签",
+                        "description" : "日志的标签"
+                    },
+                    "filename" : {
+                        "type" : "string",
+                        "title" : "输出的日志名",
+                        "description" : "输出的日志名",
+                        "default" : "./logs/default-logs.log"
+                    },
+                    "maxsize" : {
+                        "type" : "number",
+                        "title" : "files日志单个文件大小",
+                        "description" : "files日志单个文件大小",
+                        "minimum" : 1024,
+                        "maximum" : 104857600,
+                        "default" : 10485760
+                    },
+                    "maxfiles" : {
+                        "type" : "number",
+                        "title" : "files日志保存日志文件个数",
+                        "description" : "files日志保存日志文件个数",
+                        "minimum" : 3,
+                        "maximum" : 200,
+                        "default" : 10
+                    },
+                    "host" : {
+                        "type" : "string",
+                        "formats" : ["ipv4","hostname"],
+                        "title" : "redis的主机名",
+                        "description" : "redis的主机名"
+                    },
+                    "port" : {
+                        "type" : "integer",
+                        "title" : "redis的主机端口",
+                        "description" : "redis的主机端口",
+                        "minimum" : 1025,
+                        "maximum" : 65534,
+                        "default" : 6379
+                    },
+                    "auth" : {
+                        "type" : ["string", "null"],
+                        "title": "redis密码",
+                        "description" : "redis密码",
+                        "default" : null
+                    },
+                    "length" : {
+                        "type" : "integer",
+                        "title" : "redis中保存日志的条数",
+                        "description" : "redis中保存日志的条数",
+                        "minimum" : 100,
+                        "maximum" : 2000,
+                        "default" : 100
+                    },
+                    "container" : {
+                        "type" : "string",
+                        "title": "redis中保存日志的key",
+                        "description" : "redis中保存日志的key"
+                    }
+                },
+                "additionalProperties": false,
+                "anyOf" : [
+                    {
+                        "required" : [
+                            "name",
+                            "level"
+                        ]
+                    },
+                    {
+                        "required" : [
+                            "name",
+                            "level",
+                            "filename",
+                            "maxsize",
+                            "maxfiles"
+                        ]
+                    },
+                    {
+                        "required" : [
+                            "name",
+                            "level",
+                            "host",
+                            "port",
+                            "auth",
+                            "length",
+                            "container"
+                        ]
+                    }
+                ]
+            }
+        },
+        "customLoggers" : {
+            "type" : "array",
+            "uniqueItems": true,
+            "title" : "自定义日志输出",
+            "description" : "自定义日志输出",
+            "items" : {
+                "type" : "object",
+                "properties" : {
+                    "name" : {
+                        "type" : "string",
+                        "title": "console日志名字（唯一标识）",
+                        "description" : "console日志名字（唯一标识）",
+                        "default" : "default-console-logger"
+                    },
+                    "level" : {
+                        "type" : "string",
+                        "title" : "日志级别",
+                        "description" : "日志级别",
+                        "default" : "info",
+                        "enum" : [
+                            "fatal",
+                            "err",
+                            "warn",
+                            "info",
+                            "debug",
+                            "trace"
+                        ]
+                    },
+                    "logtype" : {
+                        "type" : "string",
+                        "title" :"日志类型",
+                        "description" :"日志类型，用在自定义日志",
+                        "enum" : [
+                            "files",
+                            "console",
+                            "redis"
+                        ]
+                    },
+                    "label" : {
+                        "type" : "string",
+                        "title" : "日志的标签",
+                        "description" : "日志的标签"
+                    },
+                    "filename" : {
+                        "type" : "string",
+                        "title" : "输出的日志名",
+                        "description" : "输出的日志名",
+                        "default" : "./logs/default-logs.log"
+                    },
+                    "maxsize" : {
+                        "type" : "number",
+                        "title" : "files日志单个文件大小",
+                        "description" : "files日志单个文件大小",
+                        "minimum" : 1024,
+                        "maximum" : 104857600,
+                        "default" : 10485760
+                    },
+                    "maxfiles" : {
+                        "type" : "number",
+                        "title" : "files日志保存日志文件个数",
+                        "description" : "files日志保存日志文件个数",
+                        "minimum" : 3,
+                        "maximum" : 200,
+                        "default" : 10
+                    },
+                    "host" : {
+                        "type" : "string",
+                        "formats" : ["ipv4","hostname"],
+                        "title" : "redis的主机名",
+                        "description" : "redis的主机名"
+                    },
+                    "port" : {
+                        "type" : "integer",
+                        "title" : "redis的主机名",
+                        "description" : "redis的主机名",
+                        "minimum" : 1025,
+                        "maximum" : 65534,
+                        "default" : 6379
+                    },
+                    "auth" : {
+                        "type" : ["string", "null"],
+                        "title": "redis密码",
+                        "description" : "redis密码",
+                        "default" : null
+                    },
+                    "length" : {
+                        "type" : "integer",
+                        "title" : "redis中保存日志的条数",
+                        "description" : "redis中保存日志的条数",
+                        "minimum" : 100,
+                        "maximum" : 2000,
+                        "default" : 100
+                    },
+                    "container" : {
+                        "type" : "string",
+                        "title": "redis中保存日志的key",
+                        "description" : "redis中保存日志的key"
+                    }
+                },
+                "additionalProperties": false,
+                "anyOf" : [
+                    {
+                        "required" : [
+                            "name",
+                            "level",
+                            "logtype",
+                            "label"
+                        ]
+                    },
+                    {
+                        "required" : [
+                            "name",
+                            "level",
+                            "logtype",
+                            "label",
+                            "filename",
+                            "maxsize",
+                            "maxfiles"
+                        ]
+                    },
+                    {
+                        "required" : [
+                            "name",
+                            "level",
+                            "logtype",
+                            "label",
+                            "host",
+                            "port",
+                            "auth",
+                            "length",
+                            "container"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "required": [
+        "defaultLoggers"
+      ]
+}

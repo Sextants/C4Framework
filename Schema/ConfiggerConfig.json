@@ -1,0 +1,95 @@
+{
+    "$id": "http://sextants/C4Framework/ConfiggerConfig.json",
+    "type" : "object",
+    "properties": {
+        "ConfigDir": {
+            "$id": "/properties/ConfigDir",
+            "type": "object",
+            "properties": {
+                "Path": {
+                    "$id": "/properties/ConfigDir/Path",
+                    "type": "string",
+                    "title": "扫描路径",
+                    "description": "扫描路径",
+                    "default" : "./AppConfig"
+                },
+                "main": {
+                    "$id": "/properties/ConfigDir/main",
+                    "type":"string",
+                    "title": "主文件",
+                    "description": "主文件",
+                    "default": "App.yml"
+                }
+            },
+            "description": "Config目录配置"
+        },
+        "ConfigService": {
+            "$id": "/properties/ConfigService",
+            "type":"object",
+            "properties": {
+                "host": {
+                    "$id": "/properties/ConfigService/host",
+                    "type": "string",
+                    "oneOf": [
+                        { "format": "ipv4" },
+                        { "format": "hostname"},
+                        { "format": "uri-template"}
+                    ],
+                    "title": "配置服务ip",
+                    "description": "配置服务ip"
+                },
+                "user" : {
+                    "$id": "/properties/ConfigService/user",
+                    "type": "string",
+                    "title": "用户名",
+                    "description": "用户名"
+                },
+                "pass" : {
+                    "$id": "/properties/ConfigService/pass",
+                    "type": "string",
+                    "title": "密码",
+                    "description": "密码"
+                }
+            },
+            "description": "Config服务配置"
+        },
+        "SchemaDirs": {
+            "$id": "/properties/SchemaDirs",
+            "type": "array",
+            "items": {
+                "$id": "/properties/SchemaDirs/itmes",
+                "type": "string",
+                "description": "Schema的加载目录"
+            }
+        },
+        "Macros": {
+            "$id": "/properties/Macros",
+            "type": "array",
+            "items": {
+                "$id": "/properties/Macros/items/",
+                "type": "string",
+                "description": "宏的定义",
+                "enum" : [
+                    "{AppName}",
+                    "{Version}",
+                    "{InstanceID}",
+                    "{host}",
+                    "{port}",
+                    "{Random.Hash}",
+                    "{Random.Int}",
+                    "{Random}",
+                    "{Random.HashEx}",
+                    "{Random.IntEx}",
+                    "{RandomEx}",
+                    "{timestamp}",
+                    "{timestampEx}",
+                    "{uuid}"
+                ]
+            }
+        }
+    },
+    "required": [
+        "ConfigDir",
+        "Macros"
+    ]
+}
