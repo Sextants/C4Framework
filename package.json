@@ -1,6 +1,6 @@
 {
   "name": "c4framework",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "C4Framework",
   "main": "out",
   "scripts": {
@@ -31,7 +31,7 @@
     "c4orm": "0.0.1",
     "c4restfulclient": "0.0.1",
     "c4utils": "0.0.2",
-    "c4webservice": "0.0.2",
+    "c4webservice": "0.0.3",
     "connect-redis": "^3.3.3",
     "glob": "^7.1.2",
     "ioredis": "^3.2.2",
