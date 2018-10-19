@@ -13,15 +13,7 @@ const C4ApplicationInfo_1 = require("./C4FrameworkTypes/C4ApplicationInfo");
 const c4utils_1 = require("c4utils");
 const AppInfoUtils_1 = require("./C4FrameworkUtils/AppInfoUtils");
 const C4Helper_1 = require("./C4Helpers/C4Helper");
-const SchemaDir = './schema';
-const LoggerConfigPath = './Config/C4Logger.yml';
-const ApplicationInfoPath = './.temp/.App.json';
-const ConfiggerConfigPath = './Config/Configger.yml';
-const DefaultAppConfigPath = './Config/AppConfig/App.yml';
 const WaitExitMs = 5000;
-// Schema name
-const LoggerConfigSechema = "http://sextants/C4Framework/LoggerConfig.json";
-const ApplicationInfoSechema = "http://sextants/C4Framework/ApplicationInfo.json";
 class C4Framework {
     static getConfig() { return c4configger_1.C4Configger.g_Config; }
     constructor(customProcess) {
@@ -29,7 +21,7 @@ class C4Framework {
         this.m_Configger = null;
         this.m_Logger = null;
         this.m_EurekaClient = null;
-        this.m_LoadBalancer = null;
+        // this.m_LoadBalancer = null;
         this.m_RestfulClient = null;
         this.m_WebServices = new Map();
         this.m_DBClients = new Map();
@@ -39,7 +31,7 @@ class C4Framework {
         this.m_MQConns = new Map();
         this.m_SubscribeLater = [];
         this.m_DependServices = new Map();
-        this.m_APIs = new Map();
+        // this.m_APIs = new Map();
         this.m_AppInfo = {
             AppName: "",
             Version: "",
@@ -122,14 +114,19 @@ class C4Framework {
             try {
                 let HelpersName = [];
                 this.m_Helper = yield C4Helper_1.C4InitFlow(HelpersName);
+                let DelaySubscribeHelper;
                 for (let i = 0; i < this.m_Helper.length; i++) {
+                    if (this.m_Helper[i].name === "DelaySubscribeHelper") {
+                        DelaySubscribeHelper = this.m_Helper[i];
+                        continue;
+                    }
                     let Res = yield this.m_Helper[i](this).catch((err) => {
                         console.log(err);
                         return false;
                     });
                     if (!Res) {
                         console.log(`Exec helper ${HelpersName[i]} failed.`);
-                        AppInfoUtils_1.Sleep(WaitExitMs);
+                        yield AppInfoUtils_1.Sleep(WaitExitMs);
                         process.exit(-1);
                     }
                 }
@@ -138,6 +135,18 @@ class C4Framework {
                 }, 20000);
                 if (this.m_CustomInit && c4utils_1.TypeUtils.isFunction(this.m_CustomInit)) {
                     yield this.m_CustomInit();
+                }
+                // 
+                if (DelaySubscribeHelper) {
+                    let Res = yield DelaySubscribeHelper(this).catch((err) => {
+                        console.log(err);
+                        return false;
+                    });
+                    if (!Res) {
+                        console.log(`Exec helper DelaySubscribeHelper failed.`);
+                        yield AppInfoUtils_1.Sleep(WaitExitMs);
+                        process.exit(-1);
+                    }
                 }
                 // 最后要把所有的订阅启动
                 C4ApplicationInfo_1.ServiceStatus.Status = "Starting";
@@ -149,7 +158,7 @@ class C4Framework {
                 else {
                     console.error(error);
                 }
-                AppInfoUtils_1.Sleep(WaitExitMs);
+                yield AppInfoUtils_1.Sleep(WaitExitMs);
                 process.exit(-1);
             }
         });
@@ -171,7 +180,7 @@ class C4Framework {
                 else {
                     console.error(error);
                 }
-                AppInfoUtils_1.Sleep(WaitExitMs);
+                yield AppInfoUtils_1.Sleep(WaitExitMs);
                 process.exit(-1);
             }
         });

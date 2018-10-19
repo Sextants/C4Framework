@@ -31,25 +31,6 @@ const s_HelpersLoadPaths = [
     './out/C4Helpers/',
     './node_modules/c4framework/out/C4Helpers/'
 ];
-// export function C4Helper() {
-//     return {
-//         'ProcessArgv'       : ProcessArgvHelper,
-//         "LoadSechma"        : SchemaHelper,
-//         "InitLogger"        : LoggerHelper,
-//         "LoadAppInfo"       : AppInfoHelper,
-//         "LoadConfig"        : ConfiggerHelper,
-//         "DumpAppInfo"       : DumpAppInfoHelper,
-//         "RESTClient"        : RESTClientHelper,
-//         "ORMHelper"         : ORMHelper,
-//         "ROMHelper"         : ROMHelper,
-//         "MQHelper"          : MQHelper,
-//         'RegistryService'   : RegistryHelper,
-//         'Dependencies'      : DependenciesHelper,
-//         'LoadBalancerHelper': LoadBalancerHelper,
-//         'InitWebServices'   : WebServiceHelper,
-//         'WaitDependenciesReady' : WaitDependenciesReady
-//     }
-// }
 function C4InitFlow(helpersName) {
     return __awaiter(this, void 0, void 0, function* () {
         // 初始化一个Config的LocalLoader
@@ -106,23 +87,6 @@ function C4InitFlow(helpersName) {
             process.exit(-1);
         }
         return Helpers;
-        // return [
-        //     'ProcessArgv',              // 处理输入参数
-        //     "LoadSechma",               // 加载JSON Sechma
-        //     "InitLogger",               // 初始化Logger
-        //     "LoadAppInfo",              // 加载App Info
-        //     "LoadConfig",               // 加载配置
-        //     "DumpAppInfo",              // Dump App Info
-        //     "RESTClient",               // 初始化RESTFul Client
-        //     "ORMHelper",                // 初始化ORM
-        //     "ROMHelper",                // 初始化Redis及ROM
-        //     "MQHelper",                 // 初始化MQ
-        //     'RegistryService',          // 向发现与注册中心注册自己
-        //     'Dependencies',             // 等待依赖的服务上线（后面还要等待所有服务Ready）
-        //     'LoadBalancerHelper',       // 初始化负载均衡器
-        //     'InitWebServices',          // 初始化自己的WebService
-        //     'WaitDependenciesReady'     // 等待所有依赖的服务Ready
-        // ]
     });
 }
 exports.C4InitFlow = C4InitFlow;

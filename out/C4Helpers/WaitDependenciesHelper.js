@@ -105,7 +105,7 @@ function WaitDependenciesHelper(c4) {
                 }
                 Temps = Temps2;
                 // 不要一直占用CPU
-                AppInfoUtils_1.Sleep(3000);
+                yield AppInfoUtils_1.Sleep(3000);
             } while (true);
             // 启动定时更新依赖服务的Instance
             let dependencies = C4Framework_1.default.getConfig()["Dependencies"];

@@ -14,7 +14,6 @@ export default class C4Framework {
     private m_Configger;
     private m_Logger;
     private m_EurekaClient;
-    private m_LoadBalancer;
     private m_RestfulClient;
     private m_WebServices;
     private m_DBClients;
@@ -24,7 +23,6 @@ export default class C4Framework {
     private m_MQConns;
     private m_SubscribeLater;
     private m_DependServices;
-    private m_APIs;
     private m_AppInfo;
     private m_Profiles;
     private m_Argv;

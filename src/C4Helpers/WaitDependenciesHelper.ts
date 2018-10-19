@@ -112,7 +112,7 @@ export default async function WaitDependenciesHelper(c4 : C4Framework) {
             Temps = Temps2;
 
             // 不要一直占用CPU
-            Sleep(3000);
+            await Sleep(3000);
         } while (true);
 
         // 启动定时更新依赖服务的Instance
