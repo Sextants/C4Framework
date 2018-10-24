@@ -18,27 +18,6 @@ import { FSP } from 'c4utils';
 
 const APIDir : string[] = ['./APIs', './out/APIs'];
 
-// function LoadAPIsClient(name : string) {
-
-//     if (!TypeUtils.isString(name)
-//         || TypeUtils.isEmptyStr(name)) {
-//         return undefined;
-//     }
-
-//     if (glob.hasMagic(name))
-//         return undefined;
-
-//     let parsedFile  = Path.parse(name);
-//     let curPath     = Path.join(parsedFile.dir, parsedFile.name);
-//     let fullPath    = Path.join(process.cwd(), APIDir, curPath + '.*');
-//     let IsInside    = PathUtils.PathInside(process.cwd(), fullPath);
-//     if (!IsInside) {
-//         return undefined;
-//     }
-
-//     return FSP.getModules([fullPath], "", false)[0];
-// }
-
 /**
  * 获取依赖服务的信息，并加载对应的API Client
  * @param c4 C4Framework

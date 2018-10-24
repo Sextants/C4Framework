@@ -21,7 +21,6 @@ class C4Framework {
         this.m_Configger = null;
         this.m_Logger = null;
         this.m_EurekaClient = null;
-        // this.m_LoadBalancer = null;
         this.m_RestfulClient = null;
         this.m_WebServices = new Map();
         this.m_DBClients = new Map();
@@ -31,7 +30,6 @@ class C4Framework {
         this.m_MQConns = new Map();
         this.m_SubscribeLater = [];
         this.m_DependServices = new Map();
-        // this.m_APIs = new Map();
         this.m_AppInfo = {
             AppName: "",
             Version: "",
@@ -48,7 +46,6 @@ class C4Framework {
             this.m_CustomInit = customProcess.init || null;
             this.m_CustomLaunch = customProcess.launch || null;
         }
-        // this.m_Helper = C4Helper();
         this.m_Helper = [];
         this.m_IsDebug = false;
     }
@@ -130,9 +127,6 @@ class C4Framework {
                         process.exit(-1);
                     }
                 }
-                setInterval(() => {
-                    this.m_Logger.info('running...');
-                }, 20000);
                 if (this.m_CustomInit && c4utils_1.TypeUtils.isFunction(this.m_CustomInit)) {
                     yield this.m_CustomInit();
                 }
@@ -170,8 +164,20 @@ class C4Framework {
                 if (this.m_CustomLaunch && c4utils_1.TypeUtils.isFunction(this.m_CustomLaunch)) {
                     bRun = yield this.m_CustomLaunch();
                 }
-                if (bRun)
+                if (bRun) {
+                    let LoggedRunningInterval = c4configger_1.C4Configger.g_Config.LoggedRunningInterval;
+                    if (!c4utils_1.TypeUtils.isInt(LoggedRunningInterval)) {
+                        LoggedRunningInterval = 20000;
+                    }
+                    else {
+                        if (LoggedRunningInterval > 0) {
+                            setInterval(() => {
+                                this.m_Logger.info('running...');
+                            }, LoggedRunningInterval);
+                        }
+                    }
                     C4ApplicationInfo_1.ServiceStatus.Status = "Running";
+                }
             }
             catch (error) {
                 if (this.m_Logger) {

@@ -197,5 +197,5 @@ RESTClient:                                         # RESTFulClient配置
   parsers:                                          # 自定义解析器
     - parserName : "text"
       parser : "textParser"
-
+LoggedRunningInterval: 5000                         # 显示Running的时间间隔（小于等于0表示关闭）
 

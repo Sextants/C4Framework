@@ -2,7 +2,6 @@ import C4AJV from 'c4ajv';
 import { C4Configger } from 'c4configger';
 import { C4Logger } from 'c4logger';
 import { C4EurekaClient } from "c4eurekaclient";
-import { C4LoadBalancer } from "c4loadbalancer";
 import { C4RESTFulClient } from "c4restfulclient";
 import { C4WebService } from "c4webservice";
 import { C4Publisher, C4Subscriber, C4MQ } from 'c4-mq';
@@ -20,31 +19,29 @@ const WaitExitMs = 5000;
 
 export default class C4Framework {
   //
-  private m_AJV: C4AJV | null;         // 验证器
-  private m_Configger: C4Configger | null;   // 配置加载器
-  private m_Logger: C4Logger | null;      // 日志
+  private m_AJV: C4AJV | null;                                      // 验证器
+  private m_Configger: C4Configger | null;                          // 配置加载器
+  private m_Logger: C4Logger | null;                                // 日志
 
   private m_EurekaClient: C4EurekaClient | null;                    // eureka客户端
 
-  // private m_LoadBalancer: C4LoadBalancer | null;                    // 负载均衡器（多个）
-  private m_RestfulClient: C4RESTFulClient | null;                   // rest 客户端（多个）
-  private m_WebServices: Map<string, C4WebService>;                // webservice（多个）
-  private m_DBClients: Map<string, Sequelize>;                   // DB
+  private m_RestfulClient: C4RESTFulClient | null;                  // rest 客户端（多个）
+  private m_WebServices: Map<string, C4WebService>;                 // webservice（多个）
+  private m_DBClients: Map<string, Sequelize>;                      // DB
   private m_RedisClients: Map<string, Redis.Cluster | Redis.Redis>; // RedisClient
-  private m_Publishers: Map<string, C4Publisher>;                 // MQ的发布者
-  private m_Subscribers: Map<string, C4Subscriber>;                // MQ的订阅者
-  private m_MQConns: Map<string, C4MQ>;                        // MQ的连接
-  private m_SubscribeLater: string[];                                 // 延迟订阅的订阅者名字
-  private m_DependServices: Map<string, C4DependencyService>;         // 依赖的服务发
-  // private m_APIs: Map<string, any>;
+  private m_Publishers: Map<string, C4Publisher>;                   // MQ的发布者
+  private m_Subscribers: Map<string, C4Subscriber>;                 // MQ的订阅者
+  private m_MQConns: Map<string, C4MQ>;                             // MQ的连接
+  private m_SubscribeLater: string[];                               // 延迟订阅的订阅者名字
+  private m_DependServices: Map<string, C4DependencyService>;       // 依赖的服务发
 
-  private m_AppInfo: C4ApplicationInfo;              // App Info
-  private m_Profiles: AppProfiles;                   // App Profiles
+  private m_AppInfo: C4ApplicationInfo;                             // App Info
+  private m_Profiles: AppProfiles;                                  // App Profiles
 
-  private m_Argv: any;    // 其他启动参数
+  private m_Argv: any;                                              // 其他启动参数
 
-  private m_CustomInit: any;      // 自定义初始化过程
-  private m_CustomLaunch: any;      // 自定义启动过程
+  private m_CustomInit: any;                                        // 自定义初始化过程
+  private m_CustomLaunch: any;                                      // 自定义启动过程
 
   private m_IsDebug: boolean;
 
@@ -62,7 +59,6 @@ export default class C4Framework {
     this.m_Configger = null;
     this.m_Logger = null;
     this.m_EurekaClient = null;
-    // this.m_LoadBalancer = null;
     this.m_RestfulClient = null;
     this.m_WebServices = new Map();
     this.m_DBClients = new Map();
@@ -72,7 +68,6 @@ export default class C4Framework {
     this.m_MQConns = new Map();
     this.m_SubscribeLater = [];
     this.m_DependServices = new Map();
-    // this.m_APIs = new Map();
     this.m_AppInfo = {
       AppName: "",
       Version: "",
@@ -91,7 +86,6 @@ export default class C4Framework {
       this.m_CustomLaunch = customProcess.launch || null;
     }
 
-    // this.m_Helper = C4Helper();
     this.m_Helper = [];
 
     this.m_IsDebug = false;
@@ -140,7 +134,6 @@ export default class C4Framework {
     return this.m_IsDebug;
   }
 
-
   // 
   setChecker(ajv: C4AJV) { this.m_AJV = ajv; }
   setConfigger(configger: C4Configger | null) { this.m_Configger = configger; }
@@ -179,11 +172,7 @@ export default class C4Framework {
           process.exit(-1);
         }
       }
-
-      setInterval(() => {
-        (<C4Logger>this.m_Logger).info('running...')
-      }, 20000)
-
+      
       if (this.m_CustomInit && TypeUtils.isFunction(this.m_CustomInit)) {
         await this.m_CustomInit();
       }
@@ -220,8 +209,19 @@ export default class C4Framework {
       if (this.m_CustomLaunch && TypeUtils.isFunction(this.m_CustomLaunch)) {
         bRun = await this.m_CustomLaunch();
       }
-      if (bRun)
+      if (bRun) {
+        let LoggedRunningInterval = C4Configger.g_Config.LoggedRunningInterval;
+        if (!TypeUtils.isInt(LoggedRunningInterval)) {
+          LoggedRunningInterval = 20000;
+        } else {
+          if (LoggedRunningInterval > 0) {
+            setInterval(() => {
+              (<C4Logger>this.m_Logger).info('running...')
+            }, LoggedRunningInterval)
+          }
+        }
         ServiceStatus.Status = "Running";
+      }
     } catch (error) {
       if (this.m_Logger) {
         this.m_Logger.err(error);
