@@ -26,14 +26,18 @@ export default class C4Framework {
     private m_AppInfo;
     private m_Profiles;
     private m_Argv;
+    private m_BeforeInit;
     private m_CustomInit;
+    private m_ConfigHook;
     private m_CustomLaunch;
     private m_IsDebug;
     private m_Helper;
     private m_AppData;
     static getConfig(): any;
     constructor(customProcess?: {
+        beforeInit: any;
         init: any;
+        configHook: any;
         launch: any;
     });
     getChecker(): C4AJV | null;
@@ -60,6 +64,7 @@ export default class C4Framework {
     getRESTClient(): C4RESTFulClient | null;
     getAppData(): any;
     getIsDebug(): boolean;
+    getConfigHook(): any;
     setChecker(ajv: C4AJV): void;
     setConfigger(configger: C4Configger | null): void;
     setLogger(logger: C4Logger): void;

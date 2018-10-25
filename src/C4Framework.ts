@@ -40,7 +40,9 @@ export default class C4Framework {
 
   private m_Argv: any;                                              // 其他启动参数
 
+  private m_BeforeInit: any;                                        // 在Init之前执行的方法
   private m_CustomInit: any;                                        // 自定义初始化过程
+  private m_ConfigHook: any;                                        // 在配置加载完毕后调用的Hook
   private m_CustomLaunch: any;                                      // 自定义启动过程
 
   private m_IsDebug: boolean;
@@ -52,7 +54,9 @@ export default class C4Framework {
   static getConfig() { return C4Configger.g_Config; }
 
   constructor(customProcess?: {
+    beforeInit: any,
     init: any,
+    configHook: any,
     launch: any
   }) {
     this.m_AJV = null;
@@ -82,7 +86,9 @@ export default class C4Framework {
     this.m_Profiles = "";
     this.m_Argv = {};
     if (customProcess) {
-      this.m_CustomInit = customProcess.init || null;
+      this.m_BeforeInit   = customProcess.beforeInit || null;
+      this.m_CustomInit   = customProcess.init || null;
+      this.m_ConfigHook   = customProcess.configHook || null;
       this.m_CustomLaunch = customProcess.launch || null;
     }
 
@@ -133,6 +139,9 @@ export default class C4Framework {
   getIsDebug() {
     return this.m_IsDebug;
   }
+  getConfigHook() {
+    return this.m_ConfigHook;
+  }
 
   // 
   setChecker(ajv: C4AJV) { this.m_AJV = ajv; }
@@ -154,6 +163,10 @@ export default class C4Framework {
     (<any>global)["C4"] = this;
 
     try {
+      if (this.m_CustomInit && TypeUtils.isFunction(this.m_BeforeInit)) {
+        await this.m_BeforeInit(this);
+      }
+
       let HelpersName: string[] = []
       this.m_Helper = await C4InitFlow(HelpersName);
       let DelaySubscribeHelper: any;
@@ -174,7 +187,7 @@ export default class C4Framework {
       }
       
       if (this.m_CustomInit && TypeUtils.isFunction(this.m_CustomInit)) {
-        await this.m_CustomInit();
+        await this.m_CustomInit(this);
       }
 
       // 
@@ -207,7 +220,7 @@ export default class C4Framework {
     try {
       let bRun = true;
       if (this.m_CustomLaunch && TypeUtils.isFunction(this.m_CustomLaunch)) {
-        bRun = await this.m_CustomLaunch();
+        bRun = await this.m_CustomLaunch(this);
       }
       if (bRun) {
         let LoggedRunningInterval = C4Configger.g_Config.LoggedRunningInterval;

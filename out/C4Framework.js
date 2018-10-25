@@ -43,7 +43,9 @@ class C4Framework {
         this.m_Profiles = "";
         this.m_Argv = {};
         if (customProcess) {
+            this.m_BeforeInit = customProcess.beforeInit || null;
             this.m_CustomInit = customProcess.init || null;
+            this.m_ConfigHook = customProcess.configHook || null;
             this.m_CustomLaunch = customProcess.launch || null;
         }
         this.m_Helper = [];
@@ -91,6 +93,9 @@ class C4Framework {
     getIsDebug() {
         return this.m_IsDebug;
     }
+    getConfigHook() {
+        return this.m_ConfigHook;
+    }
     // 
     setChecker(ajv) { this.m_AJV = ajv; }
     setConfigger(configger) { this.m_Configger = configger; }
@@ -109,6 +114,9 @@ class C4Framework {
             // add C4Framework instance into global object
             global["C4"] = this;
             try {
+                if (this.m_CustomInit && c4utils_1.TypeUtils.isFunction(this.m_BeforeInit)) {
+                    yield this.m_BeforeInit(this);
+                }
                 let HelpersName = [];
                 this.m_Helper = yield C4Helper_1.C4InitFlow(HelpersName);
                 let DelaySubscribeHelper;
@@ -128,7 +136,7 @@ class C4Framework {
                     }
                 }
                 if (this.m_CustomInit && c4utils_1.TypeUtils.isFunction(this.m_CustomInit)) {
-                    yield this.m_CustomInit();
+                    yield this.m_CustomInit(this);
                 }
                 // 
                 if (DelaySubscribeHelper) {
@@ -162,7 +170,7 @@ class C4Framework {
             try {
                 let bRun = true;
                 if (this.m_CustomLaunch && c4utils_1.TypeUtils.isFunction(this.m_CustomLaunch)) {
-                    bRun = yield this.m_CustomLaunch();
+                    bRun = yield this.m_CustomLaunch(this);
                 }
                 if (bRun) {
                     let LoggedRunningInterval = c4configger_1.C4Configger.g_Config.LoggedRunningInterval;

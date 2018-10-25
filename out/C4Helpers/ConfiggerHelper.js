@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const c4configger_1 = require("c4configger");
 const AppInfoUtils_1 = require("../C4FrameworkUtils/AppInfoUtils");
+const out_1 = require("c4utils/out");
 const ConfiggerConfigPath = './Config/Configger.yml';
 const ApplicationInfoSechema = "http://sextants/C4Framework/ApplicationInfo.json";
 function initConfigger(c4) {
@@ -53,7 +54,7 @@ function ConfiggerHelper(c4) {
             return Res;
         }
         let ConfiggerLoadType = c4.getConfigger().loadType();
-        if (ConfiggerLoadType === "Remote") {
+        if (ConfiggerLoadType === "Remote" || ConfiggerLoadType === "Local") {
             let ValidRes = AppInfoUtils_1.ValidateAppInfo(c4.getChecker(), ApplicationInfoSechema, c4.getAppInfo());
             if (ValidRes === false) {
                 c4.getLogger().err("Invalid Application Info.");
@@ -61,21 +62,25 @@ function ConfiggerHelper(c4) {
                 return false;
             }
         }
-        else if (ConfiggerLoadType !== "Local") {
+        else {
             c4.getLogger().err("Unknown Configger load type, may configger init failed.");
             c4.setConfigger(null);
             return false;
         }
         yield c4.getConfigger().load();
-        // console.log(JSON.stringify(C4Framework.getConfig(), null, 4))
-        if (ConfiggerLoadType === "Local") {
-            let ValidRes = AppInfoUtils_1.ValidateAppInfo(c4.m_AJV, ApplicationInfoSechema, c4.getAppInfo());
-            if (ValidRes === false) {
-                c4.setConfigger(null);
-                c4.getLogger().err("Invalid Application Info.");
-                return false;
-            }
+        let ConfigHook = c4.getConfigHook();
+        if (ConfigHook && out_1.TypeUtils.isFunction(ConfigHook)) {
+            yield ConfigHook(c4);
         }
+        // console.log(JSON.stringify(C4Framework.getConfig(), null, 4))
+        // if (ConfiggerLoadType === "Local") {
+        //     let ValidRes = ValidateAppInfo(<C4AJV>(<any>c4).m_AJV, ApplicationInfoSechema, c4.getAppInfo());
+        //     if (ValidRes === false) {
+        //         c4.setConfigger(null);
+        //         (<C4Logger>c4.getLogger()).err("Invalid Application Info.");
+        //         return false;
+        //     }
+        // }
         return true;
     });
 }
