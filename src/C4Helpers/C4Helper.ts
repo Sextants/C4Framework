@@ -13,7 +13,7 @@
 // import { LoadBalancerHelper } from './LoadBalancerHelper';
 // import { DependenciesHelper, WaitDependenciesReady } from './DependenciesHelper';
 // import { RESTClientHelper } from './RESTClientHelper';
-import { C4LocalLoader, C4YamlLoader, C4JSONLoader, C4ConfigInfo } from 'c4configger';
+import { C4LocalLoader, C4YamlLoader, C4JSONLoader, C4ConfiggerOptions } from 'c4configger';
 import { TypeUtils } from 'c4utils';
 import { FSP } from 'c4utils';
 
@@ -38,7 +38,7 @@ export async function C4InitFlow(helpersName : string[]) {
         return new C4JSONLoader();
     });
 
-    let TempConfigInfo : C4ConfigInfo = {
+    let TempConfigInfo : C4ConfiggerOptions = {
         ConfigDir : {
             Path : "",
             main : ""
