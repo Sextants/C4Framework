@@ -1,6 +1,6 @@
 {
   "name": "c4framework",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "C4Framework",
   "main": "out",
   "scripts": {
@@ -24,7 +24,7 @@
     "c4-mq": "0.0.1",
     "c4ajv": "0.0.1",
     "c4apisclient": "0.0.3",
-    "c4configger": "0.0.5",
+    "c4configger": "0.0.7",
     "c4eurekaclient": "0.0.1",
     "c4loadbalancer": "0.0.2",
     "c4logger": "0.0.1",
