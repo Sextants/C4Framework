@@ -133,8 +133,8 @@ export default class C4Framework {
   getRESTClient() {
     return this.m_RestfulClient;
   }
-  getAppData() {
-    return this.m_AppData;
+  getAppData<T>() {
+    return this.m_AppData as T;
   }
   getIsDebug() {
     return this.m_IsDebug;
@@ -153,7 +153,7 @@ export default class C4Framework {
   setArgv(argv: any) { this.m_Argv = argv; }
   setDebug(isDebug: boolean) { this.m_IsDebug = isDebug; }
   setRESTClient(client: C4RESTFulClient) { this.m_RestfulClient = client; }
-  setAppData(appData: any) { this.m_AppData = appData; }
+  setAppData<T>(appData: T) { this.m_AppData = appData; }
 
   async init() {
     //

@@ -28,8 +28,8 @@ const c4utils_1 = require("c4utils");
 const c4utils_2 = require("c4utils");
 const s_DefaultHelpersConfigPath = './Config/C4Helpers.yml';
 const s_HelpersLoadPaths = [
-    './out/C4Helpers/',
-    './node_modules/c4framework/out/C4Helpers/'
+    './node_modules/c4framework/out/C4Helpers/',
+    './out/C4Helpers/'
 ];
 function C4InitFlow(helpersName) {
     return __awaiter(this, void 0, void 0, function* () {

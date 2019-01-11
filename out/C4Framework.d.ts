@@ -62,7 +62,7 @@ export default class C4Framework {
     getMQConnection(name: string): C4MQ | undefined;
     getDependency(name: string): C4DependencyService | undefined;
     getRESTClient(): C4RESTFulClient | null;
-    getAppData(): any;
+    getAppData<T>(): T;
     getIsDebug(): boolean;
     getConfigHook(): any;
     setChecker(ajv: C4AJV): void;
@@ -74,7 +74,7 @@ export default class C4Framework {
     setArgv(argv: any): void;
     setDebug(isDebug: boolean): void;
     setRESTClient(client: C4RESTFulClient): void;
-    setAppData(appData: any): void;
+    setAppData<T>(appData: T): void;
     init(): Promise<void>;
     launch(): Promise<void>;
     done(): void;
