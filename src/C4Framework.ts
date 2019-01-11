@@ -163,7 +163,11 @@ export default class C4Framework {
     (<any>global)["C4"] = this;
 
     try {
-      if (this.m_CustomInit && TypeUtils.isFunction(this.m_BeforeInit)) {
+      if (this.m_CustomInit
+        && (TypeUtils.isFunction(this.m_BeforeInit)
+        || TypeUtils.isAsyncFunction(this.m_BeforeInit)
+        || TypeUtils.isPromise(this.m_BeforeInit)
+        || TypeUtils.isGeneratorFunction(this.m_BeforeInit))) {
         await this.m_BeforeInit(this);
       }
 
@@ -186,7 +190,11 @@ export default class C4Framework {
         }
       }
       
-      if (this.m_CustomInit && TypeUtils.isFunction(this.m_CustomInit)) {
+      if (this.m_CustomInit
+        && (TypeUtils.isFunction(this.m_CustomInit)
+        || TypeUtils.isAsyncFunction(this.m_CustomInit)
+        || TypeUtils.isPromise(this.m_CustomInit)
+        || TypeUtils.isGeneratorFunction(this.m_CustomInit))) {
         await this.m_CustomInit(this);
       }
 

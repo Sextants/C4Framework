@@ -65,7 +65,11 @@ export default async function ConfiggerHelper(c4 : C4Framework) {
     await (<C4Configger>c4.getConfigger()).load();
 
     let ConfigHook = c4.getConfigHook();
-    if (ConfigHook && TypeUtils.isFunction(ConfigHook)) {
+    if (ConfigHook
+      && (TypeUtils.isFunction(ConfigHook)
+      || TypeUtils.isAsyncFunction(ConfigHook)
+      || TypeUtils.isPromise(ConfigHook)
+      || TypeUtils.isGeneratorFunction(ConfigHook))) {
       await ConfigHook(c4);
     }
     // console.log(JSON.stringify(C4Framework.getConfig(), null, 4))

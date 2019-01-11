@@ -69,7 +69,11 @@ function ConfiggerHelper(c4) {
         }
         yield c4.getConfigger().load();
         let ConfigHook = c4.getConfigHook();
-        if (ConfigHook && out_1.TypeUtils.isFunction(ConfigHook)) {
+        if (ConfigHook
+            && (out_1.TypeUtils.isFunction(ConfigHook)
+                || out_1.TypeUtils.isAsyncFunction(ConfigHook)
+                || out_1.TypeUtils.isPromise(ConfigHook)
+                || out_1.TypeUtils.isGeneratorFunction(ConfigHook))) {
             yield ConfigHook(c4);
         }
         // console.log(JSON.stringify(C4Framework.getConfig(), null, 4))

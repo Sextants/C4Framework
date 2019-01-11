@@ -114,7 +114,11 @@ class C4Framework {
             // add C4Framework instance into global object
             global["C4"] = this;
             try {
-                if (this.m_CustomInit && c4utils_1.TypeUtils.isFunction(this.m_BeforeInit)) {
+                if (this.m_CustomInit
+                    && (c4utils_1.TypeUtils.isFunction(this.m_BeforeInit)
+                        || c4utils_1.TypeUtils.isAsyncFunction(this.m_BeforeInit)
+                        || c4utils_1.TypeUtils.isPromise(this.m_BeforeInit)
+                        || c4utils_1.TypeUtils.isGeneratorFunction(this.m_BeforeInit))) {
                     yield this.m_BeforeInit(this);
                 }
                 let HelpersName = [];
@@ -135,7 +139,11 @@ class C4Framework {
                         process.exit(-1);
                     }
                 }
-                if (this.m_CustomInit && c4utils_1.TypeUtils.isFunction(this.m_CustomInit)) {
+                if (this.m_CustomInit
+                    && (c4utils_1.TypeUtils.isFunction(this.m_CustomInit)
+                        || c4utils_1.TypeUtils.isAsyncFunction(this.m_CustomInit)
+                        || c4utils_1.TypeUtils.isPromise(this.m_CustomInit)
+                        || c4utils_1.TypeUtils.isGeneratorFunction(this.m_CustomInit))) {
                     yield this.m_CustomInit(this);
                 }
                 // 
