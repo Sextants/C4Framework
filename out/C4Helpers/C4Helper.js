@@ -8,21 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// import C4Framework          from '../C4Framework';
-// import { ProcessArgvHelper }from './ProcessArgvHelper';
-// import { SchemaHelper }     from './SchemaHelper';
-// import { LoggerHelper }     from './LoggerHelper';
-// import { AppInfoHelper }    from './AppInfoHelper';
-// import { ConfiggerHelper }  from './ConfiggerHelper';
-// import { DumpAppInfoHelper }from './AppInfoHelper';
-// import { RegistryHelper }   from './RegistryHelper';
-// import { WebServiceHelper } from './WebServiceHelper';
-// import { ORMHelper }        from './ORMHelper';
-// import { ROMHelper }        from './ROMHelper';
-// import { MQHelper }         from './MQHelper';
-// import { LoadBalancerHelper } from './LoadBalancerHelper';
-// import { DependenciesHelper, WaitDependenciesReady } from './DependenciesHelper';
-// import { RESTClientHelper } from './RESTClientHelper';
 const c4configger_1 = require("c4configger");
 const c4utils_1 = require("c4utils");
 const c4utils_2 = require("c4utils");
@@ -86,7 +71,21 @@ function C4InitFlow(helpersName) {
             console.log(error);
             process.exit(-1);
         }
-        return Helpers;
+        let resHelper = [];
+        helpersName.forEach((name) => {
+            let curHelper = null;
+            for (let i = 0; i < Helpers.length; i++) {
+                if (Helpers[i].name === name) {
+                    curHelper = Helpers[i];
+                }
+            }
+            if (curHelper === null) {
+                console.log(`Load helper ${name} failed.`);
+                process.exit(-1);
+            }
+            resHelper.push(curHelper);
+        });
+        return resHelper;
     });
 }
 exports.C4InitFlow = C4InitFlow;

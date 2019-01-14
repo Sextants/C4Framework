@@ -1,18 +1,3 @@
-// import C4Framework          from '../C4Framework';
-// import { ProcessArgvHelper }from './ProcessArgvHelper';
-// import { SchemaHelper }     from './SchemaHelper';
-// import { LoggerHelper }     from './LoggerHelper';
-// import { AppInfoHelper }    from './AppInfoHelper';
-// import { ConfiggerHelper }  from './ConfiggerHelper';
-// import { DumpAppInfoHelper }from './AppInfoHelper';
-// import { RegistryHelper }   from './RegistryHelper';
-// import { WebServiceHelper } from './WebServiceHelper';
-// import { ORMHelper }        from './ORMHelper';
-// import { ROMHelper }        from './ROMHelper';
-// import { MQHelper }         from './MQHelper';
-// import { LoadBalancerHelper } from './LoadBalancerHelper';
-// import { DependenciesHelper, WaitDependenciesReady } from './DependenciesHelper';
-// import { RESTClientHelper } from './RESTClientHelper';
 import { C4LocalLoader, C4YamlLoader, C4JSONLoader, C4ConfiggerOptions } from 'c4configger';
 import { TypeUtils } from 'c4utils';
 import { FSP } from 'c4utils';
@@ -87,5 +72,20 @@ export async function C4InitFlow(helpersName : string[]) {
         process.exit(-1);
     }
 
-    return Helpers;
+    let resHelper: any[] = [];
+    helpersName.forEach((name) => {
+      let curHelper: any = null;
+      for (let i = 0; i < Helpers.length; i++) {
+        if (Helpers[i].name === name) {
+          curHelper = Helpers[i];
+        }
+      }
+      if (curHelper === null) {
+        console.log(`Load helper ${name} failed.`);
+        process.exit(-1);
+      }
+      resHelper.push(curHelper);
+    });
+
+    return resHelper;
 }
