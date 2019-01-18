@@ -142,6 +142,7 @@ function WebServiceHelper(c4) {
         }
         catch (error) {
             c4.getLogger().err(error);
+            return false;
         }
         c4.getLogger().debug('WebServiceHelper init Web Services finished.');
         return true;

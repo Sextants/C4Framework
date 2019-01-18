@@ -146,6 +146,7 @@ export default async function WebServiceHelper(c4 : C4Framework) {
         }
     } catch (error) {
         (<C4Logger>c4.getLogger()).err(error);
+        return false;
     }
     (<C4Logger>c4.getLogger()).debug('WebServiceHelper init Web Services finished.');
     return true;
